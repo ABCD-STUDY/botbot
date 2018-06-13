@@ -1,2 +1,4 @@
 # botbot
-Sends out information about ABCD
+
+Sends out information about the ABCD study.
+
