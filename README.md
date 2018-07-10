@@ -10,7 +10,19 @@ Install Homebrew. Use:
 ```
 brew install python3
 ```
-Now install discord.py:
+
+### Example using discord.py (not working)
+
+Now install discord:
 ```
-python3 -m pip install -U discord.py
+python3 -m pip install -U discord
+python3 -m pip install -U asyncio
+```
+
+### Example using disco-py (working)
+(Using python 2.7, see https://github.com/b1naryth1ef/disco)
+
+```
+pip install disco-py
+python -m disco.cli --token=<YOUR TOKEN> --run-bot --plugin botbot2
 ```

@@ -1,5 +1,5 @@
 import discord
-#import asyncio
+import asyncio
 
 client = discord.Client()
 
@@ -20,4 +20,4 @@ async def on_ready():
     print(client.user.id)
     print('------')
 
-client.run(NDY2MjkwNzIyMjk5OTY5NTM2.DiZ8gg.ZsGTiR7h2TYYb0nvthVS6SIYq6s)
+client.run(<YOUR TOKEN>)
