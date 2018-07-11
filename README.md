@@ -23,6 +23,9 @@ python3 -m pip install -U asyncio
 (Using python 2.7, see https://github.com/b1naryth1ef/disco)
 
 ```
+brew install python2
 pip install disco-py
-python -m disco.cli --token=<YOUR TOKEN> --run-bot --plugin botbot2
+/usr/local/bin/python2.7 -m disco.cli --token=<YOUR TOKEN> --run-bot --plugin botbot2
 ```
+At this point, botbot should be online on the discord server.
+Call bot using @abcd-botbot
