@@ -28,35 +28,49 @@ class SimplePlugin(Plugin):
         if pattern.match(event.message.content):
            #self.log.info('Got message: %s', event.message.content)
            event.channel.send_message('Hello ' + author + ', what can I do for you?')
+
         pattern2 = re.compile(':[-]*[\(\)\{\}]')
         #self.log.info('Got message: %s', event.message.content)
         if pattern2.match(event.message.content):
            event.channel.send_message('EMOJI ALARM!')
+
+        got_new_request = False
         pattern3 = re.compile('what[\']*[ i]*s the number?',re.I)
         if pattern3.match(event.message.content):
            event.channel.send_message('Hi ' + author + ', which site would you like the number of?')
-           self.site_numbers.append( [author, datetime.now()  ] )
+           self.site_numbers.append( [author, datetime.now() ] )
+           got_new_request = True
            #event.channel.send_message(json.dumps(self.site_numbers))
-        # now react to a message right after the first message
-        # get the current date and time
         current_date = datetime.now()
-        # get the current author
         current_author = author
         # loop through the list of site_numbers
-        for request in self.site_numbers:
-            #   calculate the time difference in seconds between current date and site_numbers date (see datetime.timedelta)
-            old_date = request[1]
-            old_author = request[0]
-            difference = (current_date - old_date).total_seconds()
-            #   define short_enough (10sec)
-            short_enough = 10
+        if not got_new_request:
+            surviving_requests = []
+            for request in self.site_numbers:
+                #   calculate the time difference in seconds between current date and site_numbers date (see datetime.timedelta)
+                old_date = request[1]
+                old_author = request[0]
+                difference = (current_date - old_date).total_seconds()
+                #   define short_enough (10sec)
+                short_enough = 10
+                keep = True
 
-            if(current_author == old_author) and (difference < short_enough):
-                event.channel.send_message("suh dude")
-        #   if the author of the current message is the same as the current author
-        #      and if the time difference between old message and new is short enough
-        #          print result
-        #          remove message from site_numbers
+                if (current_author == old_author) and (difference <= short_enough):
+                    event.channel.send_message("[site name] currently has 00000 participants. \"" + str(difference) + "\"")
+                    keep = False
+                if (current_author == old_author) and (difference > short_enough):
+                    event.channel.send_message("Sorry, I didn't get a response in time. Please try again. \"" + str(difference) + "\"")
+                    keep = False
+                if keep:
+                    surviving_requests.append(request)
+
+            self.site_numbers = surviving_requests
+
+        
+            #   if the author of the current message is the same as the current author
+            #      and if the time difference between old message and new is short enough
+            #          print result
+            #          remove message from site_numbers
 
 
     # Serious Commands
@@ -76,7 +90,6 @@ class SimplePlugin(Plugin):
     @Plugin.command('ping')
     def on_ping_command(self, event):
         event.msg.reply('Pong!')
-
 
     @Plugin.command('good bot')
     def on_good_bot_command(self, event):
